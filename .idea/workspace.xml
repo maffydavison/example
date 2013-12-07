@@ -85,13 +85,7 @@
         <entry file="file://$PROJECT_DIR$/src/main/java/com/maffy/example/model/StudPoker.java">
           <provider selected="true" editor-type-id="text-editor">
             <state line="18" column="0" selection-start="381" selection-end="381" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="4905">
-              <folding>
-                <element signature="e#5765#5773#0" expanded="true" />
-                <element signature="e#6220#6237#0" expanded="true" />
-                <element signature="e#6807#6824#0" expanded="true" />
-                <element signature="e#7381#7389#0" expanded="true" />
-                <element signature="e#7754#7762#0" expanded="true" />
-              </folding>
+              <folding />
             </state>
           </provider>
         </entry>
@@ -100,7 +94,9 @@
         <entry file="file://$PROJECT_DIR$/src/test/java/com/maffy/example/model/StudPokerTest.java">
           <provider selected="true" editor-type-id="text-editor">
             <state line="62" column="0" selection-start="1485" selection-end="1485" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2850">
-              <folding />
+              <folding>
+                <element signature="imports" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -311,7 +307,7 @@
     <property name="dynamic.classpath" value="false" />
     <property name="options.splitter.details.proportions" value="0.2" />
     <property name="options.searchVisible" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../testtwo" />
   </component>
   <component name="RecentsManager">
     <key name="CreateTestDialog.RecentsKey">
@@ -825,15 +821,15 @@
       <workItem from="1386048904115" duration="6087000" />
       <workItem from="1386134436942" duration="2469000" />
       <workItem from="1386261601265" duration="24737000" />
-      <workItem from="1386403063396" duration="377000" />
+      <workItem from="1386403063396" duration="2037000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="33670000" />
+    <option name="totallyTimeSpent" value="35330000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="61" y="22" width="1619" height="1028" extended-state="0" />
+    <frame x="61" y="22" width="1619" height="1028" extended-state="7" />
     <editor active="false" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -896,20 +892,16 @@
     <entry file="file://$PROJECT_DIR$/src/main/java/com/maffy/example/model/StudPoker.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="293" column="71" selection-start="8907" selection-end="8907" vertical-scroll-proportion="0.0" vertical-offset="3396" max-vertical-offset="4905">
-          <folding>
-            <element signature="e#5765#5773#0" expanded="true" />
-            <element signature="e#6220#6237#0" expanded="true" />
-            <element signature="e#6807#6824#0" expanded="true" />
-            <element signature="e#7381#7389#0" expanded="true" />
-            <element signature="e#7754#7762#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/com/maffy/example/model/StudPokerTest.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="89" column="30" selection-start="2186" selection-end="2186" vertical-scroll-proportion="0.0" vertical-offset="1335" max-vertical-offset="2910">
-          <folding />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -938,20 +930,16 @@
     <entry file="file://$PROJECT_DIR$/src/test/java/com/maffy/example/model/StudPokerTest.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="62" column="0" selection-start="1485" selection-end="1485" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2850">
-          <folding />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/maffy/example/model/StudPoker.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="18" column="0" selection-start="381" selection-end="381" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="4905">
-          <folding>
-            <element signature="e#5765#5773#0" expanded="true" />
-            <element signature="e#6220#6237#0" expanded="true" />
-            <element signature="e#6807#6824#0" expanded="true" />
-            <element signature="e#7381#7389#0" expanded="true" />
-            <element signature="e#7754#7762#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
