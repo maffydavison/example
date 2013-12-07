@@ -1,0 +1,36 @@
+<transactions>
+    <transaction>
+        <transaction_id>98753621</transaction_id>
+        <transaction_time>2013-03-17T14:23:28</transaction_time>
+        <store_id>1036</store_id>
+        <items>
+            <item>
+                <item_id>0182152169</item_id>
+                <item_price>43.99</item_price>
+            </item>
+            <item>
+                <item_id>2281972103</item_id>
+                <item_price>8.49</item_price>
+            </item>
+        </items>
+    </transaction>
+    <transaction>
+        <transaction_id>21333951</transaction_id>
+        <transaction_time>2013-03-17T17:01:53</transaction_time>
+        <store_id>0023</store_id>
+        <items>
+            <item>
+                <item_id>5131963761</item_id>
+                <item_price>10.99</item_price>
+            </item>
+            <item>
+                <item_id>1458012089</item_id>
+                <item_price>12.99</item_price>
+            </item>
+            <item>
+                <item_id>6032793918</item_id>
+                <item_price>4.99</item_price>
+            </item>
+        </items>
+    </transaction>
+</transactions>
