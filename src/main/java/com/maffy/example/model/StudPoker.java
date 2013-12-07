@@ -41,7 +41,7 @@ public class StudPoker {
         return builder.toString();
     }
 
-    public boolean isOnePair(List<String> hand) {
+    private boolean isOnePair(List<String> hand) {
         boolean result = true;
         Map<String, Integer> resultMap = findValueMatches(hand);
         Iterator iter = resultMap.values().iterator();
@@ -61,7 +61,7 @@ public class StudPoker {
 
     }
 
-    public boolean isTwoPair(List<String> hand) {
+    private boolean isTwoPair(List<String> hand) {
         boolean result = true;
         Map<String, Integer> resultMap = findValueMatches(hand);
         Iterator iter = resultMap.values().iterator();
@@ -81,7 +81,7 @@ public class StudPoker {
 
     }
 
-    public boolean isThreeOfAKind(List<String> hand) {
+    private boolean isThreeOfAKind(List<String> hand) {
         boolean result = true;
         Map<String, Integer> resultMap = findValueMatches(hand);
         int check = -1;
@@ -101,7 +101,7 @@ public class StudPoker {
         return result;
     }
 
-    public boolean isFourOfAKind(List<String> hand) {
+    private boolean isFourOfAKind(List<String> hand) {
         boolean result = true;
         Map<String, Integer> resultMap = findValueMatches(hand);
         int check = -1;
@@ -122,7 +122,7 @@ public class StudPoker {
         return result;
     }
 
-    public boolean isFullHouse(List<String> hand) {
+    private boolean isFullHouse(List<String> hand) {
         boolean result = true;
         Map<String, Integer> resultMap = findValueMatches(hand);
         int check = -1;
@@ -145,7 +145,7 @@ public class StudPoker {
         return result;
     }
 
-    public boolean isStraight(List<String> hand) {
+    private boolean isStraight(List<String> hand) {
         boolean result = true;
         List<String> valuesFromHand = convertRoyalValues(getValuesFromHand(hand));
         Collections.sort(valuesFromHand);
@@ -164,13 +164,13 @@ public class StudPoker {
         return result;
     }
 
-    public boolean isFlush(List<String> hand) {
+    private boolean isFlush(List<String> hand) {
         Map<String, Integer> resultMap = findSuitMatches(hand);
         return resultMap.keySet().size() == 1 && resultMap.values().iterator().next().intValue() == 5;
 
     }
 
-    public boolean isStraightFlush(List<String> hand) {
+    private boolean isStraightFlush(List<String> hand) {
 
         boolean result = true;
         if (!isFlush(hand)) {
@@ -182,7 +182,7 @@ public class StudPoker {
         return result;
     }
 
-    public boolean isRoyalFlush(List<String> hand) {
+    private boolean isRoyalFlush(List<String> hand) {
         boolean result = true;
 
         if (!isStraightFlush(hand)) {
@@ -196,7 +196,7 @@ public class StudPoker {
         return result;
     }
 
-    public List<String> convertRoyalValues(List<String> values) {
+    private List<String> convertRoyalValues(List<String> values) {
         boolean high = false;
         if (values.contains("A") && values.contains("K")) {
               high = true;
@@ -213,7 +213,7 @@ public class StudPoker {
         return result;
     }
 
-    public Map<String, Integer>  findSuitMatches(List<String> hand) {
+    private Map<String, Integer>  findSuitMatches(List<String> hand) {
         Map<String, Integer> resultMap = new HashMap<String, Integer>();
         List<String> suitsFromHand = getSuitsFromHand(hand);
         Collections.sort(suitsFromHand);
@@ -229,7 +229,7 @@ public class StudPoker {
 
     }
 
-    public Map<String, Integer> findValueMatches(List<String> hand) {
+    private Map<String, Integer> findValueMatches(List<String> hand) {
         Map<String, Integer> resultMap = new HashMap<String, Integer>();
         List<String> valuesFromHand = getValuesFromHand(hand);
         Collections.sort(valuesFromHand);
@@ -245,7 +245,7 @@ public class StudPoker {
     }
 
 
-    public List<String> getSuitsFromHand(List<String> hand) {
+    private List<String> getSuitsFromHand(List<String> hand) {
         List<String> result = new ArrayList<String>();
         for (String s : hand) {
             if (s.length() > 2) {
@@ -257,7 +257,7 @@ public class StudPoker {
         return result;
     }
 
-    public List<String> getValuesFromHand(List<String> hand) {
+    private List<String> getValuesFromHand(List<String> hand) {
         List<String> result = new ArrayList<String>();
         for (String s : hand) {
             if (s.length() > 2) {
@@ -296,7 +296,7 @@ public class StudPoker {
         return result;
     }
 
-    public String getHighCard(List<String> hand) {
+    private String getHighCard(List<String> hand) {
         String result = null;
         List<String> values = convertRoyalValues(getValuesFromHand(hand));
         Collections.sort(values);
