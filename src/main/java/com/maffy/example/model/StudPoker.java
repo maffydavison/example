@@ -7,6 +7,44 @@ import java.util.*;
  */
 public class StudPoker {
 
+    private Map<String, Integer> valueMatches;
+    private Map<String, Integer> suitMatches;
+
+    private List<String> handValues;
+    private List<String> handSuits;
+
+    public List<String> getHandValues() {
+        return handValues;
+    }
+
+    public void setHandValues(List<String> handValues) {
+        this.handValues = handValues;
+    }
+
+    public List<String> getHandSuits() {
+        return handSuits;
+    }
+
+    public void setHandSuits(List<String> handSuits) {
+        this.handSuits = handSuits;
+    }
+
+    public Map<String, Integer> getValueMatches() {
+        return valueMatches;
+    }
+
+    public void setValueMatches(Map<String, Integer> valueMatches) {
+        this.valueMatches = valueMatches;
+    }
+
+    public Map<String, Integer> getSuitMatches() {
+        return suitMatches;
+    }
+
+    public void setSuitMatches(Map<String, Integer> suitMatches) {
+        this.suitMatches = suitMatches;
+    }
+
     public String getRank(List<String> hand) {
         StringBuilder builder = new StringBuilder();
 
@@ -166,7 +204,7 @@ public class StudPoker {
 
     private boolean isFlush(List<String> hand) {
         Map<String, Integer> resultMap = findSuitMatches(hand);
-        return resultMap.keySet().size() == 1 && resultMap.values().iterator().next().intValue() == 5;
+        return (resultMap.keySet().size() == 1) && (resultMap.values().iterator().next() == 5);
 
     }
 
@@ -215,15 +253,20 @@ public class StudPoker {
 
     private Map<String, Integer>  findSuitMatches(List<String> hand) {
         Map<String, Integer> resultMap = new HashMap<String, Integer>();
-        List<String> suitsFromHand = getSuitsFromHand(hand);
-        Collections.sort(suitsFromHand);
-        for (String s : suitsFromHand) {
-            if (resultMap.isEmpty() || !resultMap.containsKey(s)) {
-                resultMap.put(s, 1);
-            } else if (resultMap.containsKey(s)) {
-                int temp = resultMap.get(s);
-                resultMap.put(s, ++temp);
+        if (getSuitMatches() == null) {
+            List<String> suitsFromHand = getSuitsFromHand(hand);
+            Collections.sort(suitsFromHand);
+            for (String s : suitsFromHand) {
+                if (resultMap.isEmpty() || !resultMap.containsKey(s)) {
+                    resultMap.put(s, 1);
+                } else if (resultMap.containsKey(s)) {
+                    int temp = resultMap.get(s);
+                    resultMap.put(s, ++temp);
+                }
             }
+            setSuitMatches(resultMap);
+        } else {
+            resultMap = getSuitMatches();
         }
         return resultMap;
 
@@ -231,15 +274,20 @@ public class StudPoker {
 
     private Map<String, Integer> findValueMatches(List<String> hand) {
         Map<String, Integer> resultMap = new HashMap<String, Integer>();
-        List<String> valuesFromHand = getValuesFromHand(hand);
-        Collections.sort(valuesFromHand);
-        for (String s : valuesFromHand) {
-            if (resultMap.isEmpty() || !resultMap.containsKey(s)) {
-                resultMap.put(s, 1);
-            } else if (resultMap.containsKey(s)) {
-                int temp = resultMap.get(s);
-                resultMap.put(s, ++temp);
+        if (getValueMatches() == null)  {
+            List<String> valuesFromHand = getValuesFromHand(hand);
+            Collections.sort(valuesFromHand);
+            for (String s : valuesFromHand) {
+                if (resultMap.isEmpty() || !resultMap.containsKey(s)) {
+                    resultMap.put(s, 1);
+                } else if (resultMap.containsKey(s)) {
+                    int temp = resultMap.get(s);
+                    resultMap.put(s, ++temp);
+                }
             }
+            setValueMatches(resultMap);
+        } else {
+            resultMap = getValueMatches();
         }
         return resultMap;
     }
@@ -247,30 +295,37 @@ public class StudPoker {
 
     private List<String> getSuitsFromHand(List<String> hand) {
         List<String> result = new ArrayList<String>();
-        for (String s : hand) {
-            if (s.length() > 2) {
-                result.add(String.valueOf(s.charAt(2)));
-            } else {
-                result.add(String.valueOf(s.charAt(1)));
+        if (getHandSuits() == null) {
+
+            for (String s : hand) {
+                if (s.length() > 2) {
+                    result.add(String.valueOf(s.charAt(2)));
+                } else {
+                    result.add(String.valueOf(s.charAt(1)));
+                }
             }
+            setHandSuits(result);
+        } else {
+            result = getHandSuits();
         }
         return result;
     }
 
     private List<String> getValuesFromHand(List<String> hand) {
         List<String> result = new ArrayList<String>();
-        for (String s : hand) {
-            if (s.length() > 2) {
-                result.add(s.substring(0,2));
-            } else {
-                result.add(String.valueOf(s.charAt(0)));
+        if (getHandValues() == null) {
+            for (String s : hand) {
+                if (s.length() > 2) {
+                    result.add(s.substring(0,2));
+                } else {
+                    result.add(String.valueOf(s.charAt(0)));
+                }
             }
+            setHandValues(result);
+        } else {
+            result = getHandValues();
         }
         return result;
-    }
-
-    private boolean containsRoyals(List<String> values) {
-        return values.contains("K") || values.contains("Q") || values.contains("J");
     }
 
     private boolean containsAllRoyals(List<String> values) {
@@ -299,23 +354,25 @@ public class StudPoker {
     private String getHighCard(List<String> hand) {
         String result = null;
         List<String> values = convertRoyalValues(getValuesFromHand(hand));
-        Collections.sort(values);
-        int numeric = getIntValue(values.get(0), false);
-        if (numeric > 10 || numeric == 1) {
-           if (numeric == 11) {
-               result = "J";
-           } else if (numeric == 12) {
-               result = "Q";
-           } else if (numeric == 13) {
-               result = "K";
-           } else if (numeric == 14 || numeric == 1) {
-               result = "A";
-           }
+        int high = 0;
+        for (String s : values) {
+            if (getIntValue(s, false) > high) {
+                 high = getIntValue(s, false);
+            }
+        }
+        if (high > 10 || high == 1) {
+            if (high == 11) {
+                result = "J";
+            } else if (high == 12) {
+                result = "Q";
+            } else if (high == 13) {
+                result = "K";
+            } else if (high == 14 || high == 1) {
+                result = "A";
+            }
         } else {
-            result = values.get(0);
+            result = String.valueOf(high);
         }
         return result;
     }
-
-
 }

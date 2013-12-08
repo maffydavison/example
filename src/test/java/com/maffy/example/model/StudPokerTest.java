@@ -182,7 +182,7 @@ public class StudPokerTest {
     public void testGetRankHighCard() throws Exception {
         String result = game.getRank(highCard);
         assert result != null;
-        assert result.contains("K");
+        assert result.contains("K high");
     }
 
 }
