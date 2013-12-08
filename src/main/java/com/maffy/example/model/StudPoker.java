@@ -7,44 +7,6 @@ import java.util.*;
  */
 public class StudPoker {
 
-    private Map<String, Integer> valueMatches;
-    private Map<String, Integer> suitMatches;
-
-    private List<String> handValues;
-    private List<String> handSuits;
-
-    public List<String> getHandValues() {
-        return handValues;
-    }
-
-    public void setHandValues(List<String> handValues) {
-        this.handValues = handValues;
-    }
-
-    public List<String> getHandSuits() {
-        return handSuits;
-    }
-
-    public void setHandSuits(List<String> handSuits) {
-        this.handSuits = handSuits;
-    }
-
-    public Map<String, Integer> getValueMatches() {
-        return valueMatches;
-    }
-
-    public void setValueMatches(Map<String, Integer> valueMatches) {
-        this.valueMatches = valueMatches;
-    }
-
-    public Map<String, Integer> getSuitMatches() {
-        return suitMatches;
-    }
-
-    public void setSuitMatches(Map<String, Integer> suitMatches) {
-        this.suitMatches = suitMatches;
-    }
-
     public String getRank(List<String> hand) {
 
         StringBuilder builder = new StringBuilder();
@@ -59,14 +21,18 @@ public class StudPoker {
                 builder.append(s + " ");
             }
 
-            if (isRoyalFlush(hand)) {
-                builder.append("(Royal Flush)");
-            } else if (isStraightFlush(hand)) {
-                builder.append("(Straight Flush)");
+            if (isFlush(hand)) {
+                if (isStraight(hand)) {
+                    if (containsAllRoyals(getValuesFromHand(hand))) {
+                        builder.append("(Royal Flush)");
+                    } else {
+                        builder.append("(Straight Flush)");
+                    }
+                } else {
+                    builder.append("(Flush)");
+                }
             } else if (isStraight(hand)) {
                 builder.append("(Straight)");
-            } else if (isFlush(hand)) {
-                builder.append("(Flush)");
             } else if (isFullHouse(hand)) {
                 builder.append("(Full House)");
             } else if (isFourOfAKind(hand)) {
@@ -90,11 +56,11 @@ public class StudPoker {
     private boolean isOnePair(List<String> hand) {
         boolean result = true;
         Map<String, Integer> resultMap = findValueMatches(hand);
-        Iterator iter = resultMap.values().iterator();
+        Iterator iterator = resultMap.values().iterator();
         int check = 0;
-        while (iter.hasNext()) {
-            Integer test = (Integer) iter.next();
-            if (test.intValue() == 2) {
+        while (iterator.hasNext()) {
+            Integer test = (Integer) iterator.next();
+            if (test == 2) {
                 check++;
             }
         }
@@ -110,11 +76,11 @@ public class StudPoker {
     private boolean isTwoPair(List<String> hand) {
         boolean result = true;
         Map<String, Integer> resultMap = findValueMatches(hand);
-        Iterator iter = resultMap.values().iterator();
+        Iterator iterator = resultMap.values().iterator();
         int check = 0;
-        while (iter.hasNext()) {
-            Integer test = (Integer) iter.next();
-            if (test.intValue() == 2) {
+        while (iterator.hasNext()) {
+            Integer test = (Integer) iterator.next();
+            if (test == 2) {
                 check++;
             }
         }
@@ -216,32 +182,6 @@ public class StudPoker {
 
     }
 
-    private boolean isStraightFlush(List<String> hand) {
-
-        boolean result = true;
-        if (!isFlush(hand)) {
-            result = false;
-        } else if (!isStraight(hand)) {
-            result = false;
-        }
-
-        return result;
-    }
-
-    private boolean isRoyalFlush(List<String> hand) {
-        boolean result = true;
-
-        if (!isStraightFlush(hand)) {
-            result = false;
-        } else {
-            List<String> valuesFromHand = getValuesFromHand(hand);
-            if (!containsAllRoyals(valuesFromHand)) {
-                result = false;
-            }
-        }
-        return result;
-    }
-
     private List<String> convertRoyalValues(List<String> values) {
         boolean high = false;
         if (values.contains("A") && values.contains("K")) {
@@ -261,7 +201,7 @@ public class StudPoker {
 
     private Map<String, Integer>  findSuitMatches(List<String> hand) {
         Map<String, Integer> resultMap = new HashMap<String, Integer>();
-        if (getSuitMatches() == null) {
+
             List<String> suitsFromHand = getSuitsFromHand(hand);
             Collections.sort(suitsFromHand);
             for (String s : suitsFromHand) {
@@ -272,17 +212,14 @@ public class StudPoker {
                     resultMap.put(s, ++temp);
                 }
             }
-            setSuitMatches(resultMap);
-        } else {
-            resultMap = getSuitMatches();
-        }
+
         return resultMap;
 
     }
 
     private Map<String, Integer> findValueMatches(List<String> hand) {
         Map<String, Integer> resultMap = new HashMap<String, Integer>();
-        if (getValueMatches() == null)  {
+
             List<String> valuesFromHand = getValuesFromHand(hand);
             Collections.sort(valuesFromHand);
             for (String s : valuesFromHand) {
@@ -293,17 +230,13 @@ public class StudPoker {
                     resultMap.put(s, ++temp);
                 }
             }
-            setValueMatches(resultMap);
-        } else {
-            resultMap = getValueMatches();
-        }
+
         return resultMap;
     }
 
 
     private List<String> getSuitsFromHand(List<String> hand) {
         List<String> result = new ArrayList<String>();
-        if (getHandSuits() == null) {
 
             for (String s : hand) {
                 if (s.length() > 2) {
@@ -312,16 +245,13 @@ public class StudPoker {
                     result.add(String.valueOf(s.charAt(1)));
                 }
             }
-            setHandSuits(result);
-        } else {
-            result = getHandSuits();
-        }
+
         return result;
     }
 
     private List<String> getValuesFromHand(List<String> hand) {
         List<String> result = new ArrayList<String>();
-        if (getHandValues() == null) {
+
             for (String s : hand) {
                 if (s.length() > 2) {
                     result.add(s.substring(0,2));
@@ -329,10 +259,7 @@ public class StudPoker {
                     result.add(String.valueOf(s.charAt(0)));
                 }
             }
-            setHandValues(result);
-        } else {
-            result = getHandValues();
-        }
+
         return result;
     }
 
