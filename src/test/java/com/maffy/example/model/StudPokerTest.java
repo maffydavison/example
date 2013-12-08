@@ -185,4 +185,29 @@ public class StudPokerTest {
         assert result.contains("K high");
     }
 
+    @Test
+    public void testNullHand() throws Exception {
+        String result = game.getRank(null);
+        assert result != null;
+        assert result.contains("null or empty");
+    }
+
+    @Test
+    public void testEmptyHand() throws Exception {
+        String result = game.getRank(new ArrayList<String>());
+        assert result != null;
+        assert result.contains("null or empty");
+    }
+
+    @Test
+    public void testShortHand() throws Exception {
+        List<String> shortHand = new ArrayList<String>();
+        shortHand.add("Kh");
+        shortHand.add("Qd");
+        shortHand.add("5c");
+        String result = game.getRank(shortHand);
+        assert result != null;
+        assert result.contains("less than 5");
+    }
+
 }

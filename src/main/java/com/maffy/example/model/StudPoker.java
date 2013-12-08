@@ -46,36 +46,44 @@ public class StudPoker {
     }
 
     public String getRank(List<String> hand) {
+
         StringBuilder builder = new StringBuilder();
-
-        builder.append("Hand : ");
-        for (String s : hand) {
-            builder.append(s + " ");
-        }
-
-        if (isRoyalFlush(hand)) {
-            builder.append("(Royal Flush)");
-        } else if (isStraightFlush(hand)) {
-            builder.append("(Straight Flush)");
-        } else if (isStraight(hand)) {
-            builder.append("(Straight)");
-        } else if (isFlush(hand)) {
-            builder.append("(Flush)");
-        } else if (isFullHouse(hand)) {
-            builder.append("(Full House)");
-        } else if (isFourOfAKind(hand)) {
-            builder.append("(Four of a kind)");
-        } else if (isThreeOfAKind(hand)) {
-            builder.append("(Three of a kind)");
-        } else if (isTwoPair(hand)) {
-            builder.append("(Two pair)");
-        }  else if (isOnePair(hand)) {
-            builder.append("(One pair)");
+        if (hand == null || hand.isEmpty()) {
+            builder.append("Hand provided is null or empty.");
+        } else if (hand.size() < 5)  {
+            builder.append("Hand size less than 5.  Ranking requires 5 cards.");
         } else {
-            // get High card
-            String card = getHighCard(hand);
-            builder.append("(" + card + " high)");
+
+            builder.append("Hand : ");
+            for (String s : hand) {
+                builder.append(s + " ");
+            }
+
+            if (isRoyalFlush(hand)) {
+                builder.append("(Royal Flush)");
+            } else if (isStraightFlush(hand)) {
+                builder.append("(Straight Flush)");
+            } else if (isStraight(hand)) {
+                builder.append("(Straight)");
+            } else if (isFlush(hand)) {
+                builder.append("(Flush)");
+            } else if (isFullHouse(hand)) {
+                builder.append("(Full House)");
+            } else if (isFourOfAKind(hand)) {
+                builder.append("(Four of a kind)");
+            } else if (isThreeOfAKind(hand)) {
+                builder.append("(Three of a kind)");
+            } else if (isTwoPair(hand)) {
+                builder.append("(Two pair)");
+            }  else if (isOnePair(hand)) {
+                builder.append("(One pair)");
+            } else {
+                // get High card
+                String card = getHighCard(hand);
+                builder.append("(" + card + " high)");
+            }
         }
+
         return builder.toString();
     }
 
