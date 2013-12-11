@@ -23,6 +23,7 @@ public class RankTest {
     private List<Card> twoPair;
     private List<Card> onePair;
     private List<Card> highCard;
+    private List<Card> lowStraight;
 
     Player player_1;
     Player player_2;
@@ -46,6 +47,9 @@ public class RankTest {
         twoPair = new ArrayList<Card>();
         onePair = new ArrayList<Card>();
         highCard = new ArrayList<Card>();
+        lowStraight = new ArrayList<Card>();
+
+
 
         royalFlush.add(new Card("H", "A"));
         royalFlush.add(new Card("H", "K"));
@@ -76,6 +80,12 @@ public class RankTest {
         straight.add(new Card("C", "6"));
         straight.add(new Card("D", "7"));
         straight.add(new Card("H", "8"));
+
+        lowStraight.add(new Card("H", "A"));
+        lowStraight.add(new Card("S", "2"));
+        lowStraight.add(new Card("C", "3"));
+        lowStraight.add(new Card("D", "4"));
+        lowStraight.add(new Card("H", "5"));
 
         fourOfAKind.add(new Card("H", "4"));
         fourOfAKind.add(new Card("S", "4"));
@@ -155,7 +165,7 @@ public class RankTest {
 
         String [] result = rank.rankHands(players);
         assert result[0].contains("Two");
-        assert result[1].contains("high");
+        assert result[1].contains("K high");
 
     }
 
@@ -173,6 +183,23 @@ public class RankTest {
         String [] result = rank.rankHands(players);
         assert result[0].contains("Full");
         assert result[1].contains("Three");
+
+    }
+
+    @Test
+    public void testRankHands5() throws Exception {
+        player_1.setHand(straight);
+        player_1.setPosition(1);
+        player_2.setHand(lowStraight);
+        player_2.setPosition(2);
+
+        List<Player> players = new ArrayList<Player>();
+        players.add(player_1);
+        players.add(player_2);
+
+        String [] result = rank.rankHands(players);
+        assert result[0].contains("Straight");
+        assert result[1].contains("Straight");
 
     }
 }
