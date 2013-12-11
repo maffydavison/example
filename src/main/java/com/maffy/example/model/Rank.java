@@ -1,8 +1,6 @@
 package com.maffy.example.model;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by maryannfinnerty on 12/10/13.
@@ -24,9 +22,24 @@ public class Rank {
         return result;
     }
 
+    private List<Card> fixAceValue(List<Card> hand) {
+        List<Card> result = new ArrayList<Card>();
+        for (Card c : hand) {
+            if (c.getValue() == 1) {
+                c.setValue(14);
+            }
+            result.add(c);
+        }
+        return result;
+    }
+
     private String getRank(List<Card> hand) {
 
         check = getStringIntegerMap(hand);
+        if (containsAnyRoyals(hand)) {
+            hand = fixAceValue(hand);
+        }
+        Collections.sort(hand);
 
         StringBuilder builder = new StringBuilder();
         if (hand == null || hand.isEmpty()) {
@@ -91,29 +104,38 @@ public class Rank {
         for (Card c : hand) {
            if (tester == -1) {
                tester = c.getValue();
+           } else if (tester == 1 && c.getValue() == 13) {
+               tester = 13;
            } else if (c.getValue() != tester - 1) {
                result = false;
                break;
+           } else {
+               tester = c.getValue();
            }
         }
+
+
         return result;
     }
 
     private boolean containsAllRoyals(List<Card> hand) {
-        boolean result = true;
-        for (int i = 0; i< 4; i++) {
-            if (!(hand.get(i).getValue() > 10)) {
-                result = false;
-            }
-        }
 
-        return result;
+        return check.keySet().contains("A") && check.keySet().contains("K") && check.keySet().contains("Q") && check.keySet().contains("J");
+    }
+
+    private boolean containsAnyRoyals(List<Card> hand) {
+
+        return check.keySet().contains("A") && (check.keySet().contains("K") || check.keySet().contains("Q") || check.keySet().contains("J"));
     }
 
     private boolean isFullHouse() {
         boolean result = true;
 
-        if (!(check.keySet().size() == 2)) {
+        if (check.keySet().size() == 2) {
+            if (!(check.values().contains(2) && check.values().contains(3))) {
+                result = false;
+            }
+        } else {
             result = false;
         }
 

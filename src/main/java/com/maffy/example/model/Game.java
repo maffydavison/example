@@ -2,7 +2,6 @@ package com.maffy.example.model;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -50,37 +49,13 @@ public class Game {
             deal(players.get(i), 5, j);
             j += 5;
         }
-        for (Player p : players) {
-            convertRoyalValues(p.getHand());
-        }
         Rank rank = new Rank();
         String [] result = rank.rankHands(players);
 
         return result;
     }
 
-    private void convertRoyalValues(List<Card> cards) {
-        boolean foundAce = false;
-        boolean foundRoyal = false;
-        for (int i = 0; i < cards.size(); i++) {
-           if (cards.get(i).getValue() == 1) {
-               foundAce = true;
-           } else if (cards.get(i).getValue() > 10) {
-               foundRoyal = true;
-           }
-        }
 
-        if (foundAce && foundRoyal) {
-            Iterator iterator = cards.iterator();
-            while (iterator.hasNext()) {
-                Card card = (Card) iterator.next();
-                if (card.getValue() == 1) {
-                    card.setValue(14);
-                }
-            }
-        }
-        Collections.sort(cards);
-    }
 
     private void deal(Player player, int cards, int last) {
         for (int i = last; i < cards + last; i++) {

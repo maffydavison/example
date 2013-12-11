@@ -12,6 +12,8 @@ public class GameTest {
     Player player_1;
     Player player_2;
 
+
+
     @Before
     public void setUp() throws Exception {
         game = new Game(2);
@@ -36,8 +38,7 @@ public class GameTest {
         game.addPlayer(player_1);
         game.addPlayer(player_2);
         String[] result = game.play();
-        for (int i = 0; i< result.length; i++) {
-            System.out.println(result[i]);
-        }
+        assert result != null;
+        assert result.length == 2;
     }
 }
