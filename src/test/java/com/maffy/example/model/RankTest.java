@@ -202,4 +202,11 @@ public class RankTest {
         assert result[1].contains("Straight");
 
     }
+
+    @Test
+    public void testIsStraightPattern() throws Exception {
+        String test = "AKQJ10";
+        boolean result = rank.isStraightPattern(test);
+        assert result == true;
+    }
 }

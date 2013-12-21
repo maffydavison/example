@@ -1,9 +1,11 @@
 package com.maffy.example.model;
 
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
- * Created by maryannfinnerty on 12/10/13.
+ * Created by maffy davison on 12/10/13.
  */
 public class Rank {
 
@@ -13,10 +15,8 @@ public class Rank {
         String [] result = new String [players.size()];
         int counter = 0;
         for (Player p : players) {
-            StringBuilder builder = new StringBuilder();
-            builder.append("Player " + p.getPosition() + " ");
-            builder.append(getRank(p.getHand()));
-            result[counter] = builder.toString();
+            String rank = "Player " + p.getPosition() + " " + getRank(p.getHand());
+            result[counter] = rank;
             counter++;
         }
         return result;
@@ -36,7 +36,7 @@ public class Rank {
     private String getRank(List<Card> hand) {
 
         check = getStringIntegerMap(hand);
-        if (containsAnyRoyals(hand)) {
+        if (containsAnyRoyals()) {
             hand = fixAceValue(hand);
         }
         Collections.sort(hand);
@@ -55,7 +55,7 @@ public class Rank {
 
             if (isFlush(hand)) {
                 if (isStraight(hand)) {
-                    if (containsAllRoyals(hand)) {
+                    if (containsAllRoyals()) {
                         builder.append("(Royal Flush)");
                     } else {
                         builder.append("(Straight Flush)");
@@ -77,7 +77,7 @@ public class Rank {
                 builder.append("(One pair)");
             } else {
                 // get High card
-                builder.append("(" + getHighCard(hand) + " high)");
+                builder.append("(").append(getHighCard(hand)).append(" high)");
             }
         }
 
@@ -85,102 +85,91 @@ public class Rank {
     }
 
     private boolean isFlush(List<Card> hand) {
-        boolean result = true;
-        String suit = null;
-        for (Card c : hand) {
-            if (suit == null) {
-                suit = c.getSuit();
-            } else if (!c.getSuit().equalsIgnoreCase(suit)) {
-                result = false;
-                break;
+        boolean result = false;
+        if (uniqueValues() == 5) {
+            result = true;
+            String suit = null;
+            for (Card c : hand) {
+                if (suit == null) {
+                    suit = c.getSuit();
+                } else if (!c.getSuit().equalsIgnoreCase(suit)) {
+                    result = false;
+                    break;
+                }
             }
         }
         return result;
     }
 
     private boolean isStraight(List<Card> hand) {
-        boolean result = true;
-        int tester = -1;
-        for (Card c : hand) {
-           if (tester == -1) {
-               tester = c.getValue();
-           } else if (tester == 1 && c.getValue() == 13) {
-               tester = 13;
-           } else if (c.getValue() != tester - 1) {
-               result = false;
-               break;
-           } else {
-               tester = c.getValue();
-           }
+        boolean result = false;
+        if (uniqueValues() == 5) {
+            result = true;
+            int tester = -1;
+            for (Card c : hand) {
+                if (tester == -1) {
+                    tester = c.getValue();
+                } else if (tester == 1 && c.getValue() == 13) {
+                    tester = 13;
+                } else if (c.getValue() != tester - 1) {
+                    result = false;
+                    break;
+                } else {
+                    tester = c.getValue();
+                }
+            }
         }
 
 
         return result;
     }
 
-    private boolean containsAllRoyals(List<Card> hand) {
-
+    private boolean containsAllRoyals() {
         return check.keySet().contains("A") && check.keySet().contains("K") && check.keySet().contains("Q") && check.keySet().contains("J");
     }
 
-    private boolean containsAnyRoyals(List<Card> hand) {
-
+    private boolean containsAnyRoyals() {
         return check.keySet().contains("A") && (check.keySet().contains("K") || check.keySet().contains("Q") || check.keySet().contains("J"));
     }
 
     private boolean isFullHouse() {
-        boolean result = true;
-
-        if (check.keySet().size() == 2) {
-            if (!(check.values().contains(2) && check.values().contains(3))) {
-                result = false;
-            }
-        } else {
-            result = false;
-        }
-
-        return result;
+        return uniqueValueFrequency(2) && uniqueValueFrequency(3);
 
     }
 
     private boolean isFourOfAKind() {
-        boolean result = true;
-
-        if (check.size() != 2) {
-            result = false;
-        }
-
-        return result;
+        return uniqueValues() == 2;
     }
 
     private boolean isThreeOfAKind() {
-        boolean result = true;
-        if (!check.values().contains(3)){
-            result = false;
-        }
-        return result;
+        return uniqueValueFrequency(3);
     }
 
     private boolean isTwoPair() {
-        boolean result = true;
-        if (check.size() != 3) {
-            result = false;
-        } else if (!check.values().contains(2)) {
-            result = false;
-        }
-        return result;
+        return uniqueValues() == 3 && !isThreeOfAKind();
     }
 
     private boolean isOnePair() {
-        boolean result = true;
-        if (!check.values().contains(2)) {
-            result = false;
-        }
-        return result;
+        return uniqueValueFrequency(2);
     }
 
     private String getHighCard(List<Card> hand) {
         return hand.get(0).getName();
+    }
+
+    private int uniqueValues() {
+        return check.size();
+    }
+
+    private boolean uniqueValueFrequency(int frequency) {
+        return check.values().contains(frequency);
+    }
+
+    public boolean isStraightPattern(String test) {
+        String straight = "[A|a][K|k][Q|q][J|j][1][0]|[K|k][Q|q][J|j][1][0][9]|[Q|q][J|j][1][0][9][8]|[J|j][1][0][9][8][7]|[1][0][9][8][7][6]|[9][8][7][6][5]|[8][7][6][5][4]|[7][6][5][4][3]|[6][5][4][3][2]|[5][4][3][2][A|a]";
+        Pattern pattern = Pattern.compile(straight);
+        Matcher matcher = pattern.matcher(test);
+        return matcher.find();
     }
 
     private Map<String, Integer> getStringIntegerMap(List<Card> hand) {
