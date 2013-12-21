@@ -10,6 +10,8 @@ import java.util.regex.Pattern;
 public class Rank {
 
     private Map<String, Integer> check;
+    private final String straight = "[A|a][K|k][Q|q][J|j][1][0]|[K|k][Q|q][J|j][1][0][9]|[Q|q][J|j][1][0][9][8]|[J|j][1][0][9][8][7]|[1][0][9][8][7][6]|[9][8][7][6][5]|[8][7][6][5][4]|[7][6][5][4][3]|[6][5][4][3][2]|[5][4][3][2][A|a]";
+    private final Pattern STRAIGHT = Pattern.compile(straight);
 
     public String[] rankHands(List<Player> players) {
         String [] result = new String [players.size()];
@@ -54,7 +56,7 @@ public class Rank {
             }
 
             if (isFlush(hand)) {
-                if (isStraight(hand)) {
+                if (isStraight(handToString(hand))) {
                     if (containsAllRoyals()) {
                         builder.append("(Royal Flush)");
                     } else {
@@ -63,7 +65,7 @@ public class Rank {
                 } else {
                     builder.append("(Flush)");
                 }
-            } else if (isStraight(hand)) {
+            } else if (isStraight(handToString(hand))) {
                 builder.append("(Straight)");
             } else if (isFullHouse()) {
                 builder.append("(Full House)");
@@ -101,27 +103,9 @@ public class Rank {
         return result;
     }
 
-    private boolean isStraight(List<Card> hand) {
-        boolean result = false;
-        if (uniqueValues() == 5) {
-            result = true;
-            int tester = -1;
-            for (Card c : hand) {
-                if (tester == -1) {
-                    tester = c.getValue();
-                } else if (tester == 1 && c.getValue() == 13) {
-                    tester = 13;
-                } else if (c.getValue() != tester - 1) {
-                    result = false;
-                    break;
-                } else {
-                    tester = c.getValue();
-                }
-            }
-        }
-
-
-        return result;
+    private boolean isStraight(String test) {
+        Matcher matcher = STRAIGHT.matcher(test);
+        return matcher.find();
     }
 
     private boolean containsAllRoyals() {
@@ -165,11 +149,13 @@ public class Rank {
         return check.values().contains(frequency);
     }
 
-    public boolean isStraightPattern(String test) {
-        String straight = "[A|a][K|k][Q|q][J|j][1][0]|[K|k][Q|q][J|j][1][0][9]|[Q|q][J|j][1][0][9][8]|[J|j][1][0][9][8][7]|[1][0][9][8][7][6]|[9][8][7][6][5]|[8][7][6][5][4]|[7][6][5][4][3]|[6][5][4][3][2]|[5][4][3][2][A|a]";
-        Pattern pattern = Pattern.compile(straight);
-        Matcher matcher = pattern.matcher(test);
-        return matcher.find();
+    private String handToString(List<Card> hand) {
+        Collections.sort(hand);
+        String result = "";
+        for (Card c : hand) {
+            result += c.getName();
+        }
+        return result;
     }
 
     private Map<String, Integer> getStringIntegerMap(List<Card> hand) {
